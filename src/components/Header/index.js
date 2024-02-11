@@ -15,6 +15,11 @@ class Header extends Component {
     history.replace('/login')
   }
 
+  onClickLogo = () => {
+    const {history} = this.props
+    history.replace('/')
+  }
+
   render() {
     return (
       <nav className="header-container">
@@ -23,11 +28,15 @@ class Header extends Component {
             src="https://res.cloudinary.com/dbwmdblhs/image/upload/v1707628927/tdpvhy2lcyxvbadbb8es.png"
             alt="website logo"
             className="website-logo"
+            onClick={this.onClickLogo}
           />
           <Popup
             modal
-            trigger={<GiHamburgerMenu className="hamburger-icon" size={30} />}
-            position="top"
+            trigger={
+              <button type="button" className="hamburger-button">
+                <GiHamburgerMenu className="hamburger-icon" size={30} />
+              </button>
+            }
           >
             {close => (
               <div className="popup-content">

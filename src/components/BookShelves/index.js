@@ -1,5 +1,5 @@
 import {Component} from 'react'
-
+import Header from '../Header'
 import './index.css'
 
 class BookShelves extends Component {
@@ -7,9 +7,12 @@ class BookShelves extends Component {
 
   render() {
     return (
-      <div className="Book-shelves-container">
-        <h1>BookShelves Route</h1>
-      </div>
+      <>
+        <Header />
+        <div className="Book-shelves-container">
+          <h1>BookShelves Route</h1>
+        </div>
+      </>
     )
   }
 }
