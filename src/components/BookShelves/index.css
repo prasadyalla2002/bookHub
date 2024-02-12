@@ -1,5 +1,6 @@
 .book-shelves-container {
-  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
   min-height: 100vh;
   background-color: #f5f7fa;
   background-size: cover;
@@ -101,9 +102,11 @@
 }
 
 .desktop-nav-links-container {
-  width: 256px;
+  min-width: 256px;
   min-height: 100vh;
   background-color: #ffffff;
+  background-size: cover;
+  height: 100%;
   margin-top: 50px;
   padding: 20px;
   display: flex;
@@ -133,6 +136,13 @@
   list-style-type: none;
   padding-left: 0px;
   margin-left: 0px;
+  width: 100%;
+  margin-right: 40px;
+}
+
+.desktop-books-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .desktop-search-books-heading {
@@ -178,4 +188,112 @@
   border: none;
   outline: none;
   padding: 15px;
+}
+
+.bookshelf-books-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 0;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .bookshelf-books-list {
+    margin-left: 20px;
+  }
+}
+
+.bookshelf-failure-container {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+@media screen and (min-width: 768px) {
+  .bookshelf-failure-container {
+    width: 800px;
+    height: 60vh;
+  }
+}
+
+.bookshelf-failure-img {
+  width: 238px;
+  height: 117px;
+}
+
+@media screen and (min-width: 768px) {
+  .bookshelf-failure-img {
+    width: 450px;
+    height: 220vh;
+  }
+}
+
+.bookshelf-failure-description {
+  color: #475569;
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  margin-top: 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .bookshelf-failure-description {
+    font-size: 24px;
+    line-height: 48px;
+  }
+}
+
+.bookshelf-failure-button {
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .bookshelf-failure-button {
+    font-size: 14px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    line-height: 24px;
+  }
+}
+
+.bookshelf-loader-container {
+  width: 90vw;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+@media screen and (min-width: 768px) {
+  .bookshelf-loader-container {
+    width: 800px;
+    height: 60vh;
+  }
 }

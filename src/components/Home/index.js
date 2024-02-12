@@ -83,6 +83,10 @@ class Home extends Component {
     )
   }
 
+  onClickTryAgain = () => {
+    this.getTopRatedBooks()
+  }
+
   topRatedBooksFailure = () => (
     <div className="home-failure-view">
       <img
@@ -93,7 +97,11 @@ class Home extends Component {
       <p className="home-failure-description">
         Something went wrong. Please try again
       </p>
-      <button type="button" className="home-try-again-button">
+      <button
+        type="button"
+        className="home-try-again-button"
+        onClick={this.onClickTryAgain}
+      >
         Try Again
       </button>
     </div>
