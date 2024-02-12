@@ -1,0 +1,31 @@
+.tab-item {
+  list-style-type: none;
+  padding-left: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.active-btn {
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border-radius: 20px;
+  font-family: 'Roboto';
+}
+
+.tab-button {
+  color: #0284c7;
+  background-color: #ffffff;
+  border: 1px solid #0284c7;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border-radius: 20px;
+  font-family: 'Roboto';
+  font-weight: 500;
+}

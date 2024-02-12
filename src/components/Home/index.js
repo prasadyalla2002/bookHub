@@ -1,6 +1,8 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Slider from 'react-slick'
+import Loader from 'react-loader-spinner'
+
 import Header from '../Header'
 import TopRatedBook from '../TopRatedBook'
 import Footer from '../Footer'
@@ -81,13 +83,52 @@ class Home extends Component {
     )
   }
 
+  topRatedBooksFailure = () => (
+    <div className="home-failure-view">
+      <img
+        src="https://res.cloudinary.com/dbwmdblhs/image/upload/v1707724710/kvgevpkvcdrcsvxmrcsx.png"
+        alt="failure"
+        className="home-failure-image"
+      />
+      <p className="home-failure-description">
+        Something went wrong. Please try again
+      </p>
+      <button type="button" className="home-try-again-button">
+        Try Again
+      </button>
+    </div>
+  )
+
+  topRatedBooksLoading = () => (
+    <div className="top-rated-loader-container" testid="loader">
+      <Loader type="TailSpin" color="#0284C7" height={50} width={50} />
+    </div>
+  )
+
   onClickFindBooks = () => {
     const {history} = this.props
 
     history.replace('/shelf')
   }
 
+  renderTopRatedBooks = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.topRatedBooksSuccess()
+      case apiStatusConstants.failure:
+        return this.topRatedBooksFailure()
+      case apiStatusConstants.inProgress:
+        return this.topRatedBooksLoading()
+
+      default:
+        return null
+    }
+  }
+
   render() {
+    const {apiStatus} = this.state
     return (
       <>
         <Header />
@@ -118,9 +159,9 @@ class Home extends Component {
                 Find Books
               </button>
             </div>
-            <ul className="slick-container">{this.topRatedBooksSuccess()}</ul>
+            <ul className="slick-container">{this.renderTopRatedBooks()}</ul>
           </div>
-          <Footer />
+          {apiStatus !== apiStatusConstants.failure && <Footer />}
         </div>
       </>
     )

@@ -6,11 +6,11 @@
   justify-content: center;
   align-items: center;
   height: 56px;
-  position: absolute;
+  position: fixed;
 }
 @media screen and (min-width: 768px) {
   .header-container {
-    height: 85px;
+    height: 75px;
   }
 }
 
