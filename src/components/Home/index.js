@@ -1,10 +1,85 @@
 import {Component} from 'react'
-import {Redirect} from 'react-router-dom'
+import Cookies from 'js-cookie'
+import Slider from 'react-slick'
 import Header from '../Header'
+import TopRatedBook from '../TopRatedBook'
+import Footer from '../Footer'
+
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import './index.css'
 
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  inProgress: 'IN_PROGRESS',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+}
+
 class Home extends Component {
-  state = {apiStatus: ''}
+  state = {apiStatus: apiStatusConstants.initial, topRatedBooksData: []}
+
+  componentDidMount() {
+    this.getTopRatedBooks()
+  }
+
+  getTopRatedBooks = async () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
+
+    const url = 'https://apis.ccbp.in/book-hub/top-rated-books'
+    const jwtToken = Cookies.get('jwt_token')
+    const options = {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      method: 'GET',
+    }
+
+    const response = await fetch(url, options)
+    if (response.ok) {
+      const booksData = await response.json()
+      const modifiedTopRatedBooksData = booksData.books.map(eachBook => ({
+        id: eachBook.id,
+        title: eachBook.title,
+        coverPic: eachBook.cover_pic,
+        authorName: eachBook.author_name,
+      }))
+
+      this.setState({
+        apiStatus: apiStatusConstants.success,
+        topRatedBooksData: modifiedTopRatedBooksData,
+      })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
+    }
+  }
+
+  topRatedBooksSuccess = () => {
+    const {topRatedBooksData} = this.state
+    const settings = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 786,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+          },
+        },
+      ],
+    }
+    return (
+      <Slider {...settings}>
+        {topRatedBooksData.map(eachBook => (
+          <TopRatedBook bookDetails={eachBook} key={eachBook.id} />
+        ))}
+      </Slider>
+    )
+  }
 
   onClickFindBooks = () => {
     const {history} = this.props
@@ -43,7 +118,9 @@ class Home extends Component {
                 Find Books
               </button>
             </div>
+            <ul className="slick-container">{this.topRatedBooksSuccess()}</ul>
           </div>
+          <Footer />
         </div>
       </>
     )
