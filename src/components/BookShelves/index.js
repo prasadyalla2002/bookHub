@@ -91,13 +91,29 @@ class BookShelves extends Component {
   }
 
   renderBooksSuccess = () => {
-    const {booksData} = this.state
+    const {booksData, searchInput} = this.state
+    console.log(searchInput)
+    const booksDataLength = booksData.length
 
     return (
       <ul className="bookshelf-books-list">
-        {booksData.map(eachBook => (
-          <Book key={eachBook.id} bookDetails={eachBook} />
-        ))}
+        {booksDataLength > 0 ? (
+          booksData.map(eachBook => (
+            <Book key={eachBook.id} bookDetails={eachBook} />
+          ))
+        ) : (
+          <div className="no-books-found-container">
+            <img
+              src="https://res.cloudinary.com/dbwmdblhs/image/upload/v1707884802/cfyt7mxu37voqwlghntz.png"
+              alt="no books found"
+              className="no-books-found-img"
+            />
+            <p className="no-books-found-description">
+              {`Your search for ${searchInput} did not find any
+              matches.`}
+            </p>
+          </div>
+        )}
       </ul>
     )
   }
@@ -147,8 +163,17 @@ class BookShelves extends Component {
     }
   }
 
+  onChangeTab = tabId => {
+    this.setState({activeBookListId: tabId}, this.getBookDetails)
+  }
+
+  onChangeSearchInput = event => {
+    this.setState({searchInput: event.target.value}, this.getBookDetails)
+  }
+
   render() {
-    const {activeBookListId, apiStatus} = this.state
+    const {activeBookListId, apiStatus, booksData} = this.state
+    const booksDataLength = booksData.length
 
     return (
       <>
@@ -160,6 +185,7 @@ class BookShelves extends Component {
                 type="search"
                 placeholder="Search"
                 className="mobile-books-search-input"
+                onChange={this.onChangeSearchInput}
               />
               <div className="mobile-search-icon-container">
                 <BsSearch className="search-icon" />
@@ -172,6 +198,7 @@ class BookShelves extends Component {
                   key={eachItem.id}
                   tabDetails={eachItem}
                   isActive={activeBookListId === eachItem.id}
+                  onChangeTab={this.onChangeTab}
                 />
               ))}
             </ul>
@@ -183,6 +210,7 @@ class BookShelves extends Component {
                     key={eachItem.id}
                     isActive={activeBookListId === eachItem.id}
                     tabDetails={eachItem}
+                    onChangeTab={this.onChangeTab}
                   />
                 ))}
               </ul>
@@ -195,6 +223,7 @@ class BookShelves extends Component {
                     type="search"
                     placeholder="Search"
                     className="desktop-books-search-input"
+                    onChange={this.onChangeSearchInput}
                   />
                   <div className="mobile-search-icon-container">
                     <BsSearch className="search-icon" />
@@ -202,7 +231,8 @@ class BookShelves extends Component {
                 </div>
               </div>
               {this.renderBookshelf()}
-              {apiStatus === apiStatusConstants.success && <Footer />}
+              {apiStatus === apiStatusConstants.success &&
+                booksDataLength > 0 && <Footer />}
             </div>
           </div>
         </div>
