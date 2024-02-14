@@ -83,7 +83,6 @@ class BookShelves extends Component {
       this.setState({
         apiStatus: apiStatusConstants.success,
         booksData: modifiedData,
-        searchInput: '',
       })
     } else {
       this.setState({apiStatus: apiStatusConstants.failure})
@@ -168,11 +167,13 @@ class BookShelves extends Component {
   }
 
   onChangeSearchInput = event => {
-    this.setState({searchInput: event.target.value}, this.getBookDetails)
+    this.setState({searchInput: event.target.value})
   }
 
+  onClickSearch = () => this.getBookDetails()
+
   render() {
-    const {activeBookListId, apiStatus, booksData} = this.state
+    const {activeBookListId, apiStatus, booksData, searchInput} = this.state
     const booksDataLength = booksData.length
 
     return (
@@ -184,12 +185,17 @@ class BookShelves extends Component {
               <input
                 type="search"
                 placeholder="Search"
+                value={searchInput}
                 className="mobile-books-search-input"
                 onChange={this.onChangeSearchInput}
               />
-              <div className="mobile-search-icon-container">
+              <button
+                type="button"
+                className="mobile-search-icon-button"
+                onClick={this.onClickSearch}
+              >
                 <BsSearch className="search-icon" />
-              </div>
+              </button>
             </div>
             <h1 className="mobile-bookShelves-heading">Bookshelves</h1>
             <ul className="mobile-books-nav-items">
@@ -222,12 +228,17 @@ class BookShelves extends Component {
                   <input
                     type="search"
                     placeholder="Search"
+                    value={searchInput}
                     className="desktop-books-search-input"
                     onChange={this.onChangeSearchInput}
                   />
-                  <div className="mobile-search-icon-container">
+                  <button
+                    type="button"
+                    className="mobile-search-icon-button"
+                    onClick={this.onClickSearch}
+                  >
                     <BsSearch className="search-icon" />
-                  </div>
+                  </button>
                 </div>
               </div>
               {this.renderBookshelf()}

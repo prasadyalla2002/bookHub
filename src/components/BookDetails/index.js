@@ -1,7 +1,9 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 import {BsFillStarFill} from 'react-icons/bs'
 import Header from '../Header'
+import Footer from '../Footer'
 
 import './index.css'
 
@@ -70,7 +72,7 @@ class BookDetails extends Component {
     } = bookDetails
 
     return (
-      <>
+      <div className="book-details-content">
         <div className="book-cover-info-container">
           <img src={coverPic} alt={title} className="book-details-cover-pic" />
           <div className="book-info-container">
@@ -86,20 +88,71 @@ class BookDetails extends Component {
           </div>
         </div>
         <hr className="book-details-hr-line" />
-      </>
+        <div className="book-details-about-author-container">
+          <h1 className="book-details-about-author-heading">About Author</h1>
+          <p className="book-details-about-author-description">{aboutAuthor}</p>
+        </div>
+        <div className="book-details-about-author-container">
+          <h1 className="book-details-about-author-heading">About Book</h1>
+          <p className="book-details-about-author-description">{aboutBook}</p>
+        </div>
+      </div>
     )
   }
 
+  onClickTryAgain = () => {
+    this.getBookDetails()
+  }
+
+  renderBookDetailsFailure = () => (
+    <div className="book-details-failure-container">
+      <img
+        src="https://res.cloudinary.com/dbwmdblhs/image/upload/v1707724710/kvgevpkvcdrcsvxmrcsx.png"
+        alt="failure"
+        className="book-details-failure-image"
+      />
+      <p className="book-details-failure-description">
+        Something went wrong. Please try again
+      </p>
+      <button
+        type="button"
+        className="book-details-failure-button"
+        onClick={this.onClickTryAgain}
+      >
+        Try Again
+      </button>
+    </div>
+  )
+
+  renderBookDetailsLoader = () => (
+    <div className="book-details-loader-container" testid="loader">
+      <Loader type="TailSpin" color="#0284C7" height={50} width={50} />
+    </div>
+  )
+
+  renderBookDetails = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderBookDetailsSuccess()
+      case apiStatusConstants.failure:
+        return this.renderBookDetailsFailure()
+      case apiStatusConstants.inProgress:
+        return this.renderBookDetailsLoader()
+      default:
+        return null
+    }
+  }
+
   render() {
+    const {apiStatus} = this.state
     return (
-      <>
+      <div className="book-details-container">
         <Header />
-        <div className="book-details-container">
-          <div className="book-details-content">
-            {this.renderBookDetailsSuccess()}
-          </div>
-        </div>
-      </>
+        {this.renderBookDetails()}
+        {apiStatus === apiStatusConstants.success && <Footer />}
+      </div>
     )
   }
 }
